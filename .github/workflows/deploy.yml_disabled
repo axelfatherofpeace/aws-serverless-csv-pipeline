@@ -1,0 +1,11 @@
+name: Deploy serverless pipeline
+
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  depploy:
