@@ -1,8 +1,7 @@
 name: Deploy Infra and Lambda
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -44,4 +43,11 @@ jobs:
 
       - name: Terraform Show Output
         run: terraform -chdir=terraform output
-
+      
+      - name: Upload Terraform State and Plan Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform artifacts
+          path: |
+            terraform/terraform.tfstate
+            terraform/tfplan
