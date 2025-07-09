@@ -4,7 +4,6 @@ provider "aws" {
 }
 
 
-
 #######################################Create a unique S3 bucket
 resource "random_id" "rand"{
   byte_length = 4
