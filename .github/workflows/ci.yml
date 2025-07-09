@@ -1,8 +1,8 @@
 name: CI Validate Infra and lambda Code
 
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches: [ci-branch]
 
 jobs:
   validate:
