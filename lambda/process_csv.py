@@ -15,6 +15,7 @@ table = dynamodb.Table(table_name)
 # sns = boto3.client('sns')
 # sns_topic = os.environ.get('SNS_TOPIC')
 
+
 def lambda_handler(event, context):
     try:
         for record in event['Records']:  # Loop through each file event
@@ -25,7 +26,7 @@ def lambda_handler(event, context):
 
             # Download the file
             response = s3.get_object(Bucket=bucket, Key=key)
-            content = response['Body'].read().decode('utf-8').splitlines()  # FIXED
+            content = response['Body'].read().decode('utf-8').splitlines()
 
             # Parse CSV into dict
             reader = csv.DictReader(content)
@@ -37,13 +38,13 @@ def lambda_handler(event, context):
                     print(f"Skipping row without 'id': {row}")
                     continue
 
-                table.put_item(Item=row)  # FIXED capital 'Item'
+                table.put_item(Item=row)
                 inserted += 1
 
             print(f"✅ Successfully inserted {inserted} rows from {key}")
 
         return {
-            'statusCode': 200,  # FIXED key case (statusCode, not StatusCode)
+            'statusCode': 200,  
             'body': json.dumps(f"Processed {inserted} rows successfully")
         }
 
@@ -58,5 +59,4 @@ def lambda_handler(event, context):
         #         Message=f"Lambda error: {str(e)}"
         #     )
 
-        raise e  # FIXED: must be inside the except block
-
+        raise e
