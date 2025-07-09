@@ -1,11 +1,47 @@
-name: Deploy serverless pipeline
-
+name: Deploy Infra and Lambda
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
 
 jobs:
-  depploy:
+  deploy:
+    name: Deploy Terraform and Lambda
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Zip Lambda Code
+        run: |
+          cd lambda
+          zip -r ../lambda.zip ./*
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Terraform Init
+        run: terraform -chdir=terraform init
+
+      - name: Terraform Plan
+        run: terraform -chdir=terraform plan -out=tfplan
+
+      - name: Show Terraform Plan
+        run: terraform -chdir=terraform show -no-color tfplan
+
+      - name: Terraform Apply
+        run: terraform -chdir=terraform apply -auto-approve tfplan
+
+      - name: Terraform Show Output
+        run: terraform -chdir=terraform output
+
