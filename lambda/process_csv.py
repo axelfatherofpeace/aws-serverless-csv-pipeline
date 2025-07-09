@@ -44,7 +44,7 @@ def lambda_handler(event, context):
             print(f"✅ Successfully inserted {inserted} rows from {key}")
 
         return {
-            'statusCode': 200,  
+            'statusCode': 200, 
             'body': json.dumps(f"Processed {inserted} rows successfully")
         }
 
