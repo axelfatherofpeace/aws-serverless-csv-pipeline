@@ -1,8 +1,7 @@
 name: CI Validate Infra and lambda Code
 
 on:
-  push:
-    branches: [ci-branch]
+  workflow_dispatch:
 
 jobs:
   validate:
