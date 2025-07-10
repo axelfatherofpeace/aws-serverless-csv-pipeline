@@ -129,3 +129,36 @@ resource "aws_s3_bucket_notification" "trigger" {
   depends_on = [aws_lambda_permission.allow_s3]                   #Ensures permission is granted before creating the trigger
 
 }
+
+############################## SNS Topic creation
+resource "aws_sns_topic" "lambda_alerts" {
+  name = "lambda-alerts"
+}
+
+
+############### Email Suvscription to SNS Topic
+resource "aws_sns_topic_subscription" "email_alert" {
+  topic_arn = aws_sns_topic.lambda_alerts.arn
+  protocol = "email"
+  endpoint = "kumar1998satish@gmail.com"
+}
+
+
+###################### Cloudwatch alarms for lambda Errors
+
+resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
+  alarm_name = "lambda-error-alarm"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods = 1
+  metric_name = "Errors"
+  namespace = "AWS/Lambda"
+  period = 60
+  statistic = "Sum"
+  threshold = 0
+  alarm_description = "Alert when lambda throws and error"
+  alarm_actions = [aws_sns_topic.lambda_alerts.arn]
+
+  dimensions = {
+    FunctionName = aws_lambda_function.csv_processor.function_name
+}
+

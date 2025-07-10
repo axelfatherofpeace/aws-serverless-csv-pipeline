@@ -35,3 +35,11 @@ jobs:
 
       - name: Terraform Destroy
         run: terraform -chdir=terraform destroy -auto-approve
+
+      - name: Clean up local terraform files
+        run: |
+          rm -rf terraform/.terraform
+          rm -f terraform/.terraform.lock.hcl
+          rm -f terraform/terraform.tfstate
+          rm -f terraform/terraform.tfstate.backup
+          rm -f terraform/tfplan 
