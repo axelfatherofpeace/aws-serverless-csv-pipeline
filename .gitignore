@@ -1,0 +1,14 @@
+# Terraform state and plan files
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.backup
+*.tfplan
+
+# Terraform cache and lock files
+.terraform/
+.terraform.lock.hcl
+
+# Lambda deployment package
+lambda.zip
+tfplan
