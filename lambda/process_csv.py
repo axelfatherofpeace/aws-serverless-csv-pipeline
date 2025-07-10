@@ -41,7 +41,7 @@ def lambda_handler(event, context):
                 table.put_item(Item=row)
                 inserted += 1
 
-            print(f"✅ Successfully inserted {inserted} rows from {key}")
+            print(f"Successfully inserted {inserted} rows from {key}")
 
         return {
             'statusCode': 200,
@@ -49,7 +49,7 @@ def lambda_handler(event, context):
         }
 
     except Exception as e:
-        print(f"❌ Error processing file: {str(e)}")
+        print(f"Error processing file: {str(e)}")
 
         # Optional SNS notification block (disabled for now)
         # if sns_topic:

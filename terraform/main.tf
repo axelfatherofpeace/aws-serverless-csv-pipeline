@@ -1,23 +1,23 @@
-############################AWS provider and region
+############################ AWS provider and region
 provider "aws" {
   region = "ap-south-1"
 }
 
 
-#######################################Create a unique S3 bucket
+####################################### Create a unique S3 bucket
 resource "random_id" "rand"{
   byte_length = 4
 }
 
 
-################################S3 bucket creation to upload the CSV files
+################################ S3 bucket creation to upload the CSV files
 resource "aws_s3_bucket" "csv_bucket" {
   bucket = "csv-upload-bucket-${random_id.rand.hex}"   # Bucket name with random generated hex
   force_destroy = true                                 # Allow bucket deletion even when it has files
 }
 
 
-###########################Create a DynamoDB table to store parsed CSV data
+########################### Create a DynamoDB table to store parsed CSV data
 resource "aws_dynamodb_table" "csv_table" {
   name = "csv-data-table"
   billing_mode = "PAY_PER_REQUEST"
@@ -30,7 +30,7 @@ resource "aws_dynamodb_table" "csv_table" {
 }
 
 
-#################################Create an IAM role that allows lambda to run
+################################# Create an IAM role that allows lambda to run
 resource "aws_iam_role" "lambda_role" {
   name = "lambda_csv_processor_role"
   
@@ -47,7 +47,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 
-################################Give lambda permission to read from s3 ,write to DynamoDB and log to cloudwatch
+################################ Give lambda permission to read from s3 ,write to DynamoDB and log to cloudwatch
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "lambda_csv_permissions"
   role = aws_iam_role.lambda_role.id
@@ -84,7 +84,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
 })
 }
 
-##########################################Create lambda function from lambda.zip
+########################################## Create lambda function from lambda.zip
 resource "aws_lambda_function" "csv_processor" {
   function_name = "csv-processor-lambda"                  #Name of the lambda function
   
@@ -105,7 +105,7 @@ resource "aws_lambda_function" "csv_processor" {
 
 
 
-#############################################Allow S3 to call the lambda function
+############################################# Allow S3 to call the lambda function
 resource "aws_lambda_permission" "allow_s3" {
   statement_id = "AllowExecutionFromS3"
   action = "lambda:InvokeFunction"                                    #permission being granted
@@ -116,7 +116,7 @@ resource "aws_lambda_permission" "allow_s3" {
 }
 
 
-#####################################Setup the actual S3-to-lambda trigger
+##################################### Setup the actual S3-to-lambda trigger
 resource "aws_s3_bucket_notification" "trigger" {
   bucket = aws_s3_bucket.csv_bucket.id                               #The S3 bucket to attach teh notification to
 
