@@ -12,12 +12,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Download terraform Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform artifacts 
-          path: terraform
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
