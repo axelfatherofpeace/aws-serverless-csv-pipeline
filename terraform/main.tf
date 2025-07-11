@@ -161,4 +161,4 @@ resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   dimensions = {
     FunctionName = aws_lambda_function.csv_processor.function_name
 }
-)
+}
