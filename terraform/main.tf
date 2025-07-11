@@ -145,7 +145,6 @@ resource "aws_sns_topic_subscription" "email_alert" {
 
 
 ###################### Cloudwatch alarms for lambda Errors
-
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   alarm_name = "lambda-error-alarm"
   comparison_operator = "GreaterThanThreshold"
@@ -160,5 +159,5 @@ resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
 
   dimensions = {
     FunctionName = aws_lambda_function.csv_processor.function_name
-}
+  }
 }
