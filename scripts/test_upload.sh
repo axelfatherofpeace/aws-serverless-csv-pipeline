@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BUCKET_NAME="csv-upload-bucket-573a2219"
+BUCKET_NAME="csv-upload-bucket-79506e2d"
 
 # Get the bucket name from Terraform output
 #TF_DIR="../terraform"

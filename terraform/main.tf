@@ -150,7 +150,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   evaluation_periods  = 1
   metric_name         = "Errors"
   namespace           = "AWS/Lambda"
-  period              = 60
+  period              = 5                                    #check in this time interval
   statistic           = "Sum"
   threshold           = 0
   alarm_description   = "Alert when lambda throws and error"
