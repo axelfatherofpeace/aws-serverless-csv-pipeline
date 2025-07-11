@@ -24,6 +24,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
+      - name: Zip Lambda code (for destroy)
+        run: |
+          cd lambda
+          zip -r ../lambda.zip .
+
       - name: Terraform Init (with existing state)
         run: terraform -chdir=terraform init
 
