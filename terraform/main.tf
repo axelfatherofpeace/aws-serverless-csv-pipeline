@@ -144,18 +144,17 @@ resource "aws_sns_topic_subscription" "email_alert" {
 }
 
 
-###################### Cloudwatch alarms for lambda Errors
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
-  alarm_name = "lambda-error-alarm"
+  alarm_name          = "lambda-error-alarm"
   comparison_operator = "GreaterThanThreshold"
-  evaluation_periods = 1
-  metric_name = "Errors"
-  namespace = "AWS/Lambda"
-  period = 60
-  statistic = "Sum"
-  threshold = 0
-  alarm_description = "Alert when lambda throws and error"
-  alarm_actions = [aws_sns_topic.lambda_alerts.arn]
+  evaluation_periods  = 1
+  metric_name         = "Errors"
+  namespace           = "AWS/Lambda"
+  period              = 60
+  statistic           = "Sum"
+  threshold           = 0
+  alarm_description   = "Alert when lambda throws and error"
+  alarm_actions       = [aws_sns_topic.lambda_alerts.arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.csv_processor.function_name
